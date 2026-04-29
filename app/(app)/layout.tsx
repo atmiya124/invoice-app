@@ -1,55 +1,27 @@
 import { ReactNode } from "react";
-import Link from "next/link";
-import { auth } from "@/auth";
-import { Button } from "@/components/ui/button";
+import { Receipt } from "lucide-react";
+import { AppNav } from "@/components/app-nav";
 
-export default async function AppLayout({ children }: { children: ReactNode }) {
-  const session = await auth();
-
+export default function AppLayout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen flex bg-background">
-      <aside className="hidden md:flex w-60 flex-col border-r bg-card">
-        <div className="px-4 py-4 text-lg font-semibold tracking-tight">
-          Invoice Manager
+      <aside className="hidden md:flex w-64 flex-col border-r border-border bg-card">
+        <div className="flex h-14 items-center gap-2 border-b border-border px-4">
+          <Receipt className="h-6 w-6 text-primary" />
+          <span className="text-lg font-semibold tracking-tight">
+            Invoice Manager
+          </span>
         </div>
-        <nav className="flex-1 px-2 space-y-1 text-sm">
-          <Link
-            href="/dashboard"
-            className="flex items-center rounded-md px-3 py-2 hover:bg-accent"
-          >
-            Dashboard
-          </Link>
-          <Link
-            href="/invoices"
-            className="flex items-center rounded-md px-3 py-2 hover:bg-accent"
-          >
-            Invoices
-          </Link>
-          <Link
-            href="/create"
-            className="flex items-center rounded-md px-3 py-2 hover:bg-accent"
-          >
-            Create Invoice
-          </Link>
-        </nav>
+        <div className="flex-1 overflow-auto py-4">
+          <AppNav />
+        </div>
       </aside>
 
-      <div className="flex-1 flex flex-col">
-        <header className="flex h-14 items-center justify-between border-b px-4">
-          <div className="md:hidden text-base font-semibold">Invoice Manager</div>
-          <div className="flex items-center gap-3 text-sm">
-            {session?.user && (
-              <>
-                <span className="text-muted-foreground">
-                  {session.user.name ?? session.user.email}
-                </span>
-                <form action="/api/auth/signout" method="post">
-                  <Button type="submit" size="sm" variant="outline">
-                    Sign out
-                  </Button>
-                </form>
-              </>
-            )}
+      <div className="flex flex-1 flex-col min-w-0">
+        <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b border-border bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <div className="md:hidden flex items-center gap-2">
+            <Receipt className="h-5 w-5 text-primary" />
+            <span className="font-semibold">Invoice Manager</span>
           </div>
         </header>
         <main className="flex-1 p-4 md:p-6">{children}</main>
@@ -57,4 +29,3 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
     </div>
   );
 }
-

@@ -15,13 +15,14 @@ export interface InvoicePdfItem {
 
 export interface InvoicePdfProps {
   company: {
-    name: string;
+    name: string; // This will be user's name only, not company name
     addressLine1?: string;
     addressLine2?: string;
     email?: string;
   };
   invoice: {
     number: string;
+    number2?: string; // Optional second invoice number for company profile
     issueDate: string;
     dueDate: string;
     clientName: string;
@@ -30,6 +31,7 @@ export interface InvoicePdfProps {
     tax: number;
     total: number;
     notes?: string | null;
+    submittedOn?: string; // For right-aligned submitted date
   };
   items: InvoicePdfItem[];
 }
@@ -81,26 +83,41 @@ export function InvoicePDF({ company, invoice, items }: InvoicePdfProps) {
       <Page size="A4" style={styles.page}>
         <View style={styles.row}>
           <View>
+            {/* Only user's name, not company name */}
             <Text style={styles.heading}>{company.name}</Text>
             {company.addressLine1 && <Text>{company.addressLine1}</Text>}
             {company.addressLine2 && <Text>{company.addressLine2}</Text>}
             {company.email && <Text>{company.email}</Text>}
           </View>
-          <View style={{ alignItems: "flex-end" }}>
+          <View style={{ alignItems: "flex-end", minWidth: 180 }}>
+            {/* Right-aligned Invoice number(s) and Submitted on date */}
             <Text style={{ fontSize: 18 }}>INVOICE</Text>
             <Text style={styles.label}>Invoice #</Text>
             <Text style={styles.value}>{invoice.number}</Text>
+            {invoice.number2 && (
+              <>
+                <Text style={styles.label}>Alt Invoice #</Text>
+                <Text style={styles.value}>{invoice.number2}</Text>
+              </>
+            )}
             <Text style={[styles.label, { marginTop: 4 }]}>Issue date</Text>
             <Text style={styles.value}>{invoice.issueDate}</Text>
             <Text style={[styles.label, { marginTop: 4 }]}>Due date</Text>
             <Text style={styles.value}>{invoice.dueDate}</Text>
+            {invoice.submittedOn && (
+              <>
+                <Text style={[styles.label, { marginTop: 4 }]}>Submitted on</Text>
+                <Text style={styles.value}>{invoice.submittedOn}</Text>
+              </>
+            )}
           </View>
         </View>
 
         <View style={{ marginTop: 24 }}>
           <Text style={styles.label}>Bill to</Text>
+          {/* Make Bill To address text color same as other text (not blue) */}
           <Text style={styles.value}>{invoice.clientName}</Text>
-          {invoice.clientEmail && <Text>{invoice.clientEmail}</Text>}
+          {invoice.clientEmail && <Text style={styles.value}>{invoice.clientEmail}</Text>}
         </View>
 
         <View style={styles.tableHeader}>

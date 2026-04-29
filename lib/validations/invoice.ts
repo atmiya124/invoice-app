@@ -14,7 +14,9 @@ export const invoiceSchema = z.object({
   issueDate: z.string(),
   dueDate: z.string(),
   items: z.array(invoiceItemSchema).min(1),
-  notes: z.string().optional()
+  notes: z.string().optional(),
+  invoiceNumber2: z.string().optional(), // optional second invoice number
+  submittedOn: z.string().optional() // optional submitted date
 });
 
 export type InvoiceInput = z.infer<typeof invoiceSchema>;

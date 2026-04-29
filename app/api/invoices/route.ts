@@ -1,27 +1,18 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
 import { db, invoices, invoiceItems } from "@/lib/db";
 import { invoiceSchema } from "@/lib/validations/invoice";
-import { and, desc, eq } from "drizzle-orm";
+import { desc } from "drizzle-orm";
 
 export async function GET() {
-  const session = await auth();
-  const userId = (session?.user as any)?.id as number | undefined;
-  if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-
   const rows = await db
     .select()
     .from(invoices)
-    .where(eq(invoices.createdBy, userId))
     .orderBy(desc(invoices.createdAt));
 
   return NextResponse.json(rows);
 }
 
 export async function POST(req: Request) {
-  const session = await auth();
-  const userId = (session?.user as any)?.id as number | undefined;
-  if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const json = await req.json();
   const parse = invoiceSchema.safeParse(json);
@@ -44,6 +35,7 @@ export async function POST(req: Request) {
     .insert(invoices)
     .values({
       invoiceNumber: `INV-${Date.now()}`,
+      invoiceNumber2: data.invoiceNumber2 || null, // optional second invoice number
       clientName: data.clientName,
       clientEmail: data.clientEmail || null,
       status: data.status,
@@ -52,7 +44,8 @@ export async function POST(req: Request) {
       subtotal: subtotal.toFixed(2),
       tax: tax.toFixed(2),
       total: total.toFixed(2),
-      createdBy: userId
+      submittedOn: data.submittedOn ? new Date(data.submittedOn) : null,
+      createdBy: 1
     })
     .returning();
 

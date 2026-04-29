@@ -17,11 +17,6 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "types": [
-      "next-env",
-      "next/types/global",
-      "next/image-types/global"
-    ],
     "paths": {
       "@/*": [
         "./*"

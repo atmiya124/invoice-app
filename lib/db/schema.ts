@@ -23,6 +23,7 @@ export const users = pgTable("users", {
 export const invoices = pgTable("invoices", {
   id: serial("id").primaryKey(),
   invoiceNumber: varchar("invoice_number", { length: 50 }).notNull().unique(),
+  invoiceNumber2: varchar("invoice_number2", { length: 50 }), // optional second invoice number
   clientName: varchar("client_name", { length: 255 }).notNull(),
   clientEmail: varchar("client_email", { length: 255 }),
   status: invoiceStatusEnum("status").notNull().default("UNPAID"),
@@ -31,6 +32,7 @@ export const invoices = pgTable("invoices", {
   subtotal: numeric("subtotal", { precision: 12, scale: 2 }).notNull(),
   tax: numeric("tax", { precision: 12, scale: 2 }).notNull(),
   total: numeric("total", { precision: 12, scale: 2 }).notNull(),
+  submittedOn: timestamp("submitted_on"), // for right-aligned submitted date
   createdBy: integer("created_by")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),

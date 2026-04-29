@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { InvoiceInput } from "@/lib/validations/invoice";
 
@@ -70,33 +71,37 @@ export default function CreateInvoicePage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-1 text-sm">
-              <label className="font-medium">Client name</label>
+            <div className="space-y-2">
+              <Label htmlFor="clientName">Client name</Label>
               <Input
+                id="clientName"
                 value={clientName}
                 onChange={(e) => setClientName(e.target.value)}
                 placeholder="Client name"
               />
             </div>
-            <div className="space-y-1 text-sm">
-              <label className="font-medium">Client email</label>
+            <div className="space-y-2">
+              <Label htmlFor="clientEmail">Client email</Label>
               <Input
+                id="clientEmail"
                 value={clientEmail}
                 onChange={(e) => setClientEmail(e.target.value)}
                 placeholder="client@example.com"
               />
             </div>
-            <div className="space-y-1 text-sm">
-              <label className="font-medium">Issue date</label>
+            <div className="space-y-2">
+              <Label htmlFor="issueDate">Issue date</Label>
               <Input
+                id="issueDate"
                 type="date"
                 value={issueDate}
                 onChange={(e) => setIssueDate(e.target.value)}
               />
             </div>
-            <div className="space-y-1 text-sm">
-              <label className="font-medium">Due date</label>
+            <div className="space-y-2">
+              <Label htmlFor="dueDate">Due date</Label>
               <Input
+                id="dueDate"
                 type="date"
                 value={dueDate}
                 onChange={(e) => setDueDate(e.target.value)}
@@ -106,7 +111,7 @@ export default function CreateInvoicePage() {
 
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium">Items</span>
+              <Label>Items</Label>
               <Button
                 type="button"
                 size="sm"

@@ -1,3 +1,9 @@
 {
-  "/dashboard/page": "app/dashboard/page.js"
+  "/_not-found": "app/_not-found.js",
+  "/api/invoices/[id]/pdf/route": "app/api/invoices/[id]/pdf/route.js",
+  "/api/invoices/route": "app/api/invoices/route.js",
+  "/page": "app/page.js",
+  "/(app)/create/page": "app/(app)/create/page.js",
+  "/(app)/dashboard/page": "app/(app)/dashboard/page.js",
+  "/(app)/invoices/page": "app/(app)/invoices/page.js"
 }
